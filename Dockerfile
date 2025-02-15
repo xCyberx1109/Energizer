@@ -7,5 +7,4 @@ WORKDIR /Energizer
 # Expose Render's required port (10000)
 EXPOSE 8080
 
-# Run the application
-CMD ["java", "-jar", "Energizer.jar"]
+
