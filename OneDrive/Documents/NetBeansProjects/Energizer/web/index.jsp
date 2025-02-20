@@ -59,7 +59,7 @@
             <div class="col-2"></div>
             <div class="col-10" >
                 <div class="row">
-                    <c:forEach items="${requestScope.ProdcutByCategory != null ? requestScope.ProdcutByCategory : dataP}" var="p">
+                    <c:forEach items="${requestScope.ProductByCategory != null ? requestScope.ProductByCategory : dataP}" var="p">
                         <div class="card col-3 m-3" style="width: 18rem">
                             <img style="height: 50%; width: 100%"class="card-img-top" src="${p.images}"/>
                             <div class="card-body">

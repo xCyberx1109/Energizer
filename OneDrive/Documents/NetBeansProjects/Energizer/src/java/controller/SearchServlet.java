@@ -68,7 +68,7 @@ public class SearchServlet extends HttpServlet {
         DAO d = new DAO();
         try {
             pList = d.searchByKey(key);
-            request.setAttribute("data", pList);
+            request.setAttribute("dataP", pList);
             System.out.println("Search key: " + key); // Debugging
             request.setAttribute("key", key);
             request.getRequestDispatcher("home.jsp").forward(request, response);

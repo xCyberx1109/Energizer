@@ -65,7 +65,7 @@ public class productsByCategory extends HttpServlet {
         try{
             DAO d =new DAO();
              List<Products> products = d.getProductByCategory(category);
-             request.setAttribute("ProdcutByCategory", products);
+             request.setAttribute("ProductByCategory", products);
         }catch(NumberFormatException e){
             
         }
