@@ -53,6 +53,7 @@ public class DAO extends DBContext {
         }
         try {
             PreparedStatement st=connection.prepareStatement(sql);
+            st.setString(1, "%" + key + "%");
             ResultSet rs=st.executeQuery();
             while(rs.next()){
                 Products p=new Products(rs.getString("productName"),rs.getString("category"),

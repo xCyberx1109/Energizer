@@ -21,7 +21,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
 
-                    <div class="dropdown" action="search">
+                    <div class="dropdown">
                         <button class="dropdown-btn" onclick="toggleDropdown()">Categories ▼</button>
                         <div class="dropdown-content" id="dropdownMenu">
                             <a href="${pageContext.request.contextPath}/category?category=Alkaline">Alkaline</a>
@@ -35,7 +35,7 @@
 
                 </ul>
                 <form class="form-inline my-2 my-lg-0" action="search">
-                    <input style="width: 800px"class="form-control" type="search" placeholder="Search" aria-label="Search">
+                    <input style="width: 800px"class="form-control" value="${requestScope.key}" name="key" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
                 <ul class="navbar-nav mr-auto">
