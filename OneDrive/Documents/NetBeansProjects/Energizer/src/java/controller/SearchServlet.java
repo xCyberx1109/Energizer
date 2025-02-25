@@ -68,19 +68,12 @@ public class SearchServlet extends HttpServlet {
         DAO d = new DAO();
         try {
             pList = d.searchByKey(key);
-            request.setAttribute("dataP", pList);
             System.out.println("Search key: " + key); // Debugging
+            request.setAttribute("dataP", pList);
             request.setAttribute("key", key);
-            request.getRequestDispatcher("home.jsp").forward(request, response);
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         } catch (Exception e) {
-//            pList=d.getProducts();
-//            cList=d.getAll();
-//            request.setAttribute("data", pList);
-//            request.setAttribute("cList", cList);
-//            request.getRequestDispatcher("home.jsp").forward(request, response);
             System.out.println(e);
-            request.setAttribute("errorMessage", "Something went wrong. Please try again.");
-            request.getRequestDispatcher("error.jsp").forward(request, response);
         }
     }
 

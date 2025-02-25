@@ -45,27 +45,28 @@ public class DAO extends DBContext {
 
     public List<Products> searchByKey(String key) {
         List<Products> pList = new ArrayList<>();
-        String sql = "select i.InventoryID,i.ProductID,i.SupplierID,i.StockLevel,\n"
-                + "	p.ProductName,p.Category,p.Price,p.images,p.Description\n"
-                + "from Inventory i join Products p on i.ProductID=p.ProductID";
-        if(key!=null){
-            sql+=" and p.ProductName LIKE '%"+key+"%'";
+        String sql = "select DISTINCT p.ProductName,p.Category,p.Price,p.images,p.Description,p.StockQuantity\n"
+                + "from  Products p \n"
+                + "where 1=1";
+        if (key != null) {
+            sql += " and p.ProductName LIKE ?";
         }
         try {
-            PreparedStatement st=connection.prepareStatement(sql);
+            PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, "%" + key + "%");
-            ResultSet rs=st.executeQuery();
-            while(rs.next()){
-                Products p=new Products(rs.getString("productName"),rs.getString("category"),
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Products p = new Products(rs.getString("productName"), rs.getString("category"),
                         rs.getString("images"),
-                        rs.getString("description"),rs.getDouble("price"),
+                        rs.getString("description"), rs.getDouble("price"),
                         rs.getInt("StockQuantity"));
+                System.out.println("Number of results found: " + pList.size());
                 pList.add(p);
             }
         } catch (Exception e) {
             System.out.println(e);
         }
-       return pList;
+        return pList;
     }
 
     public List<Products> getProductByCategory(String category) {
