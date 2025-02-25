@@ -12,16 +12,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.util.List;
 import model.Products;
 
 /**
  *
- * @author PC
+ * @author Simplification
  */
-@WebServlet(name = "productsByCategory", urlPatterns = {"/category"})
-public class productsByCategory extends HttpServlet {
+@WebServlet(name = "SearchServlet", urlPatterns = {"/search"})
+public class SearchServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +39,10 @@ public class productsByCategory extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet productsByCategory</title>");
+            out.println("<title>Servlet SearchServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet productsByCategory at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet SearchServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,15 +60,21 @@ public class productsByCategory extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String category=request.getParameter("category");
-        try{
-            DAO d =new DAO();
-             List<Products> products = d.getProductByCategory(category);
-             request.setAttribute("ProductByCategory", products);
-        }catch(NumberFormatException e){
-            
+        String key = request.getParameter("key");
+        if (key == null) {
+            key = "";
         }
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        List<Products> pList;
+        DAO d = new DAO();
+        try {
+            pList = d.searchByKey(key);
+            System.out.println("Search key: " + key); // Debugging
+            request.setAttribute("dataP", pList);
+            request.setAttribute("key", key);
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     /**

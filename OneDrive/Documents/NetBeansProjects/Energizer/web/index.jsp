@@ -36,6 +36,8 @@
                         </div>
                     </div>
                 </ul>
+                <form class="form-inline my-2 my-lg-0" method="get" action="search">
+                    <input style="width: 800px"class="form-control" name="key" type="search" placeholder="Search" aria-label="Search">
                         <a class="dropdown-btn" style="margin-left: -150px" href="test">Campaign</a>
                 <form class="form-inline my-2 my-lg-0">
                     <input style="width: 800px"class="form-control" type="search" placeholder="Search" aria-label="Search">
@@ -53,8 +55,6 @@
         </nav>
 
 
-
-
         <h1 style="font-size: 1000%; text-align: center;background-color: gray">
             COMMERCIAL
         </h1>
@@ -67,7 +67,7 @@
             <div class="col-2"></div>
             <div class="col-10" >
                 <div class="row">
-                    <c:forEach items="${requestScope.ProdcutByCategory != null ? requestScope.ProdcutByCategory : dataP}" var="p">
+                    <c:forEach items="${requestScope.ProductByCategory != null ? requestScope.ProductByCategory : dataP}" var="p">
                         <div class="card col-3 m-3" style="width: 18rem">
                             <img style="height: 50%; width: 100%"class="card-img-top" src="${p.images}"/>
                             <div class="card-body">
