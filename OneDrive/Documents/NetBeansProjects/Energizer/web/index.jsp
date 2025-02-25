@@ -8,8 +8,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="asset/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="asset/css/styles.css"/>
+        <script src="asset/script/jquery-3.7.1.min.js"></script>
+        <link rel="icon" type="image/x-icon" href="asset/images/favicon.ico">
     </head>
     <body>
+
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a href="${pageContext.request.contextPath}/">
                 <img style="width: 100px;height: 80px"class="navbar-brand" href="#" src="asset/images/logo.jpg">
@@ -32,8 +35,8 @@
                             <a href="${pageContext.request.contextPath}/category?category=Power Bank">Power Bank</a>
                         </div>
                     </div>
-
                 </ul>
+                        <a class="dropdown-btn" style="margin-left: -150px" href="test">Campaign</a>
                 <form class="form-inline my-2 my-lg-0">
                     <input style="width: 800px"class="form-control" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -55,6 +58,9 @@
         <h1 style="font-size: 1000%; text-align: center;background-color: gray">
             COMMERCIAL
         </h1>
+              
+
+
 
 
         <div class="row">
@@ -74,7 +80,15 @@
             </div>
         </div>
 
+        <div class="loader-wrapper">        
+            <div class="spinner-1 "></div>           
+        </div>
+
+
+
+
         <script>
+            //Drop down
             function toggleDropdown() {
                 var dropdown = document.getElementById("dropdownMenu");
                 if (dropdown.style.display === "block") {
@@ -83,14 +97,31 @@
                     dropdown.style.display = "block";
                 }
             }
-
-            // Close dropdown if clicked outside
             window.onclick = function (event) {
                 if (!event.target.matches('.dropdown-btn')) {
                     var dropdown = document.getElementById("dropdownMenu");
                     dropdown.style.display = "none";
                 }
-            }
+            };
+
+            //loading animation
+            $(document).ready(function () {
+                // Check if the loader has already been shown in this session
+                if (!sessionStorage.getItem('loaderShown')) {
+                    $(".loader-wrapper").show(); // Ensure loader is visible
+
+                    $(window).on("load", function () {
+                        $(".loader-wrapper").fadeOut(3000, function () {
+                            // Mark loader as shown
+                            sessionStorage.setItem('loaderShown', 'true');
+                        });
+                    });
+                } else {
+                    // If the loader has already been shown, hide it immediately
+                    $(".loader-wrapper").hide();
+                }
+            });
+
         </script>
 
     </body>
