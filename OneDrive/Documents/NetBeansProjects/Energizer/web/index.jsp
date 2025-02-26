@@ -1,4 +1,3 @@
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <html>
@@ -34,7 +33,7 @@
                     </div>
 
                 </ul>
-                <form class="form-inline my-2 my-lg-0" method="get" action="search">
+                <form class="form-inline my-2 my-lg-0" action="search">
                     <input style="width: 800px"class="form-control" name="key" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
@@ -50,6 +49,8 @@
         </nav>
 
 
+
+
         <h1 style="font-size: 1000%; text-align: center;background-color: gray">
             COMMERCIAL
         </h1>
@@ -61,13 +62,15 @@
                 <div class="row">
                     <c:forEach items="${requestScope.ProductByCategory != null ? requestScope.ProductByCategory : dataP}" var="p">
                         <div class="card col-3 m-3" style="width: 18rem">
-                            <img style="height: 50%; width: 100%"class="card-img-top" src="${p.images}"/>
+                            <img style="height: 50%; width: 100%" class="card-img-top" src="${p.images}"/>
                             <div class="card-body">
                                 <h5 class="card-title">${p.productName}</h5>
                                 <h5>Price: ${p.price}$</h5>
+                                <a href="${pageContext.request.contextPath}/productDetail?id=${p.productID}" class="btn btn-primary">Detail</a>
                             </div>
                         </div>
                     </c:forEach>
+
                 </div>
             </div>
         </div>
