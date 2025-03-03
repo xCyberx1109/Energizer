@@ -36,7 +36,7 @@
                         </div>
                     </div>
                 </ul>
-                <a class="dropdown-btn" style="margin-left: -150px" href="test">Campaign</a>
+
                 <form class="form-inline my-2 my-lg-0" method="get" action="search">
                     <input style="width: 800px"class="form-control" name="key" type="search" placeholder="Search" aria-label="Search">
                 </form>
@@ -54,27 +54,36 @@
         </nav>
 
 
-        <h1 style="font-size: 1000%; text-align: center;background-color: gray">
-            COMMERCIAL
+        <h1 style="font-size: 1000%; text-align: center;background-color: gray; margin: 10px 0px 10px 0px">
+            CAMPAIGN
         </h1>
 
 
 
-
-
-        <div class="row">
-            <div class="col-2"></div>
-            <div class="col-10" >
-                <div class="row">
-                    <c:forEach items="${requestScope.ProductByCategory != null ? requestScope.ProductByCategory : dataP}" var="p">
-                        <div class="card col-3 m-3" style="width: 18rem">
-                            <img style="height: 50%; width: 100%"class="card-img-top" src="${p.images}"/>
-                            <div class="card-body">
-                                <h5 class="card-title">${p.productName}</h5>
-                                <h5>Price: ${p.price}$</h5>
+        <div>
+            <div class="category">
+                <h3>Categories</h3>
+                <a href="${pageContext.request.contextPath}/category?category=Alkaline">Alkaline</a>
+                <a href="${pageContext.request.contextPath}/category?category=Lithium">Lithium</a>
+                <a href="${pageContext.request.contextPath}/category?category=Rechargeable">Rechargeable</a>
+                <a href="${pageContext.request.contextPath}/category?category=Charger">Charger</a>
+                <a href="${pageContext.request.contextPath}/category?category=Flashlight">Flashlight</a>
+                <a href="${pageContext.request.contextPath}/category?category=Power Bank">Power Bank</a>
+            </div>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-10" >
+                    <div class="row">
+                        <c:forEach items="${requestScope.ProductByCategory != null ? requestScope.ProductByCategory : dataP}" var="p">
+                            <div class="card col-3 m-3" style="width: 18rem">
+                                <img style="height: 50%; width: 100%"class="card-img-top" src="${p.images}"/>
+                                <div class="card-body">
+                                    <h5 class="card-title">${p.productName}</h5>
+                                    <h5>Price: ${p.price}$</h5>
+                                </div>
                             </div>
-                        </div>
-                    </c:forEach>
+                        </c:forEach>
+                    </div>
                 </div>
             </div>
         </div>
