@@ -36,13 +36,12 @@
                         </div>
                     </div>
                 </ul>
+                <a class="dropdown-btn" style="margin-left: -150px" href="test">Campaign</a>
                 <form class="form-inline my-2 my-lg-0" method="get" action="search">
                     <input style="width: 800px"class="form-control" name="key" type="search" placeholder="Search" aria-label="Search">
-                        <a class="dropdown-btn" style="margin-left: -150px" href="test">Campaign</a>
-                <form class="form-inline my-2 my-lg-0">
-                    <input style="width: 800px"class="form-control" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
+
+
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link disabled">Login</a>
@@ -58,7 +57,7 @@
         <h1 style="font-size: 1000%; text-align: center;background-color: gray">
             COMMERCIAL
         </h1>
-              
+
 
 
 
