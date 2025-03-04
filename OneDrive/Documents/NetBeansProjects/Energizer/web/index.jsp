@@ -72,6 +72,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">${p.productName}</h5>
                                 <h5>Price: ${p.price}$</h5>
+                                <a href="${pageContext.request.contextPath}/productDetail?id=${p.productID}" class="btn btn-primary">Detail</a>
                             </div>
                         </div>
                     </c:forEach>
