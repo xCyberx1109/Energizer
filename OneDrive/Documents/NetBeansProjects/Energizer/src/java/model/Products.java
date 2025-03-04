@@ -2,30 +2,21 @@
 package model;
 
 public class Products {
-    private int productID;
-    private String productName, category, images, description;
+    private String productName, category,images,description;
     private Double price;
-    private int stockQuantity;
+    private int StockQuantity,ProductID;
 
     public Products() {
     }
 
-    public Products(int productID,String productName, String category, String images, String description, double price, int stockQuantity) {
-        this.productID = productID;
+    public Products(String productName, String category, String images, String description, Double price, int StockQuantity, int ProductID) {
         this.productName = productName;
         this.category = category;
         this.images = images;
         this.description = description;
         this.price = price;
-        this.stockQuantity = stockQuantity;
-    }
-
-    public int getProductID() {
-        return productID;
-    }
-
-    public void setProductID(int productID) {
-        this.productID = productID;
+        this.StockQuantity = StockQuantity;
+        this.ProductID = ProductID;
     }
 
     public String getProductName() {
@@ -69,11 +60,21 @@ public class Products {
     }
 
     public int getStockQuantity() {
-        return stockQuantity;
+        return StockQuantity;
     }
 
-    public void setStockQuantity(int stockQuantity) {
-        this.stockQuantity = stockQuantity;
+    public void setStockQuantity(int StockQuantity) {
+        this.StockQuantity = StockQuantity;
     }
 
+    public int getProductID() {
+        return ProductID;
+    }
+
+    public void setProductID(int id) {
+        this.ProductID = ProductID;
+    }
+
+    
+    
 }
