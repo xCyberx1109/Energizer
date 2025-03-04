@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller;
 
 import dal.DAO;
@@ -61,13 +57,13 @@ public class productsByCategory extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String category=request.getParameter("category");
-        try{
-            DAO d =new DAO();
-             List<Products> products = d.getProductByCategory(category);
-             request.setAttribute("ProductByCategory", products);
-        }catch(NumberFormatException e){
-            
+        String category = request.getParameter("category");
+        try {
+            DAO d = new DAO();
+            List<Products> products = (category != null && !category.isEmpty()) ? d.getProductByCategory(category) : d.getAllProducts();
+            request.setAttribute("ProductByCategory", products);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }

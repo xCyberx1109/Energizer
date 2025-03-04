@@ -8,15 +8,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import model.Products;
 
 /**
  *
  * @author PC
  */
-@WebServlet(name = "productServerlet", urlPatterns = {""})
-public class productServerlet extends HttpServlet {
+@WebServlet(name = "adminDelete", urlPatterns = {"/delete"})
+public class adminDelete extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,10 +33,10 @@ public class productServerlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet productServerlet</title>");
+            out.println("<title>Servlet adminDelete</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet productServerlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet adminDelete at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -56,13 +54,16 @@ public class productServerlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DAO d = new DAO();
-        String category = request.getParameter("category");
-        List<Products> products = (category != null && !category.isEmpty()) ? d.getProductByCategory(category) : d.getAllProducts();
-        List<Products> listP = d.getAllProducts();
-        request.setAttribute("products", products);
-        request.setAttribute("dataP", listP);
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        String name = request.getParameter("name");
+
+        try {
+            DAO d = new DAO();
+
+            d.delete(name);
+            response.sendRedirect("admin");
+        } catch (NumberFormatException e) {
+            System.out.println(e);
+        }
     }
 
     /**

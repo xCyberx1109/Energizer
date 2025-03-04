@@ -1,10 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
+
 package controller;
 
-import dal.UserDAO;
+import dal.DAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,10 +12,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import model.User;
 
-/**
- *
- * @author tphon
- */
 @WebServlet(name = "registerServlet", urlPatterns = {"/register"})
 public class registerServlet extends HttpServlet {
 
@@ -91,7 +84,7 @@ public class registerServlet extends HttpServlet {
                 errUser = "invalid";
                 check = false;
             }
-            UserDAO ud = new UserDAO();
+            DAO ud = new DAO();
             List<User> allUser = ud.getAll();
             for (User temp : allUser) {
                 if (temp.getEmail().equals(email)) {

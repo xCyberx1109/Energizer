@@ -1,10 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package controller;
 
-import dal.UserDAO;
+import dal.DAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -80,7 +76,7 @@ public class loginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String rememberMe = request.getParameter("remember");
-        UserDAO ud = new UserDAO();
+        DAO ud = new DAO();
         User user = ud.login(username, password);
         String error = "";
         if (user == null) {
@@ -90,7 +86,7 @@ public class loginServlet extends HttpServlet {
         } else {
             HttpSession session = request.getSession();
             session.setAttribute("account", user);
-            
+
             // Remember function
             if ("on".equals(rememberMe)) {
                 Cookie usernameCookie = new Cookie("username", username);
@@ -112,17 +108,22 @@ public class loginServlet extends HttpServlet {
                 }
             }
             //____________________________________________________________________________________________
-            response.sendRedirect("home");
+            if ("admin".equalsIgnoreCase(user.getRole())) {
+                response.sendRedirect("admin");
+            } else {
+                response.sendRedirect(request.getContextPath());
+            }
         }
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
+
+/**
+ * Returns a short description of the servlet.
+ *
+ * @return a String containing servlet description
+ */
+@Override
+public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

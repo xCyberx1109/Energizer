@@ -15,7 +15,7 @@
 
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a href="${pageContext.request.contextPath}/">
-                <img style="width: 100px;height: 80px"class="navbar-brand" href="#" src="asset/images/logo.jpg">
+                <img style="width: 100px;height: 80px"class="navbar-brand" src="asset/images/logo.jpg">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -32,23 +32,25 @@
                             <a href="${pageContext.request.contextPath}/category?category=Rechargeable">Rechargeable</a>
                             <a href="${pageContext.request.contextPath}/category?category=Charger">Charger</a>
                             <a href="${pageContext.request.contextPath}/category?category=Flashlight">Flashlight</a>
-                            <a href="${pageContext.request.contextPath}/category?category=Power Bank">Power Bank</a>
+                            <a href="${pageContext.request.contextPath}/category?category=Power+Bank">Power Bank</a>
                         </div>
                     </div>
                 </ul>
 
-                <form class="form-inline my-2 my-lg-0" method="get" action="search">
-                    <input style="width: 800px"class="form-control" name="key" type="search" placeholder="Search" aria-label="Search">
+                <form style="margin: 0px 100px 0px -10%;width: 1000px" method="get" action="search">
+                    <input class="form-control" name="key" type="search" placeholder="Search" aria-label="Search">
                 </form>
 
 
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link disabled">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled">Register</a>
-                    </li>
+                    <c:if test="${sessionScope.account==null}">
+                        <a class="btn btn-secondary" href="login">login</a>
+                    </c:if>
+                    <c:if test="${sessionScope.account!=null}">
+
+                        <a href="logout">LOGOUT</a>
+
+                    </c:if>
                 </ul>
             </div>
         </nav>
@@ -60,33 +62,23 @@
 
 
 
-        <div>
-            <div class="category">
-                <h3>Categories</h3>
-                <a href="${pageContext.request.contextPath}/category?category=Alkaline">Alkaline</a>
-                <a href="${pageContext.request.contextPath}/category?category=Lithium">Lithium</a>
-                <a href="${pageContext.request.contextPath}/category?category=Rechargeable">Rechargeable</a>
-                <a href="${pageContext.request.contextPath}/category?category=Charger">Charger</a>
-                <a href="${pageContext.request.contextPath}/category?category=Flashlight">Flashlight</a>
-                <a href="${pageContext.request.contextPath}/category?category=Power Bank">Power Bank</a>
-            </div>
-            <div class="row">
-                <div class="col-2"></div>
-                <div class="col-10" >
-                    <div class="row">
-                        <c:forEach items="${requestScope.ProductByCategory != null ? requestScope.ProductByCategory : dataP}" var="p">
-                            <div class="card col-3 m-3" style="width: 18rem">
-                                <img style="height: 50%; width: 100%"class="card-img-top" src="${p.images}"/>
-                                <div class="card-body">
-                                    <h5 class="card-title">${p.productName}</h5>
-                                    <h5>Price: ${p.price}$</h5>
-                                </div>
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-10" >
+                <div class="row">
+                    <c:forEach items="${requestScope.ProductByCategory != null ? requestScope.ProductByCategory : dataP}" var="p">
+                        <div class="card col-3 m-3" style="width: 18rem">
+                            <img style="height: 50%; width: 100%"class="card-img-top" src="${p.images}"/>
+                            <div class="card-body">
+                                <h5 class="card-title">${p.productName}</h5>
+                                <h5>Price: ${p.price}$</h5>
                             </div>
-                        </c:forEach>
-                    </div>
+                        </div>
+                    </c:forEach>
                 </div>
             </div>
         </div>
+
 
         <div class="loader-wrapper">        
             <div class="spinner-1 "></div>           

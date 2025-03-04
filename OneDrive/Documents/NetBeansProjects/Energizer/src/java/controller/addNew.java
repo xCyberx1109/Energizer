@@ -15,8 +15,8 @@ import model.Products;
  *
  * @author PC
  */
-@WebServlet(name = "productServerlet", urlPatterns = {""})
-public class productServerlet extends HttpServlet {
+@WebServlet(name = "addNew", urlPatterns = {"/add"})
+public class addNew extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,34 +35,40 @@ public class productServerlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet productServerlet</title>");
+            out.println("<title>Servlet addNew</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet productServerlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet addNew at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DAO d = new DAO();
+        String name = request.getParameter("name");
+        String description = request.getParameter("describe");
         String category = request.getParameter("category");
-        List<Products> products = (category != null && !category.isEmpty()) ? d.getProductByCategory(category) : d.getAllProducts();
-        List<Products> listP = d.getAllProducts();
-        request.setAttribute("products", products);
-        request.setAttribute("dataP", listP);
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        String images = request.getParameter("images");
+        String price_raw = request.getParameter("price");
+        String stockQuantity_raw = request.getParameter("stockQuantity");
+        int stockQuantity,id;
+        double price;
+        
+        try {
+            DAO d = new DAO();
+            stockQuantity=Integer.parseInt(stockQuantity_raw);
+            price=Double.parseDouble(price_raw);
+            List<Products> p = d.getAllProducts();
+            id=p.size()+1;
+            Products cNew = new Products(name, category, images, description, price, stockQuantity,id);
+            d.insertNew(cNew);
+            response.sendRedirect("admin");
+
+        } catch (NumberFormatException e) {
+            System.out.println(e);
+        }
     }
 
     /**
