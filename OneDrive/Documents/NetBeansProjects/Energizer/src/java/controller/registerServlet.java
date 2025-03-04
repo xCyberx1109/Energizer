@@ -4,7 +4,7 @@
  */
 package controller;
 
-import dal.UserDAO;
+import dal.DAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -91,7 +91,7 @@ public class registerServlet extends HttpServlet {
                 errUser = "invalid";
                 check = false;
             }
-            UserDAO ud = new UserDAO();
+            DAO ud = new DAO();
             List<User> allUser = ud.getAll();
             for (User temp : allUser) {
                 if (temp.getEmail().equals(email)) {
