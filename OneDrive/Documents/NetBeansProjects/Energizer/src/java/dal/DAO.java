@@ -345,7 +345,7 @@ public class DAO extends DBContext {
         return users;
     }
 
-    // Phương thức xóa người dùng
+   
     
     public void update(Products p) {
         String sql = "UPDATE Products SET ProductName=?, Category=?, Price=?, StockQuantity=?, images=?, Description=? WHERE ProductID=?";
