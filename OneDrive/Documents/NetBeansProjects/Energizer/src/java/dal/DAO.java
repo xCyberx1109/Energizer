@@ -4,6 +4,14 @@ import model.Products;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import model.User;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import model.Products;
+import model.User;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class DAO extends DBContext {
 
@@ -16,13 +24,13 @@ public class DAO extends DBContext {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Products p = new Products(
-                        rs.getInt("ProductID"),
                         rs.getString("ProductName"),
                         rs.getString("Category"),
                         rs.getString("Images"),
                         rs.getString("Description"),
                         rs.getDouble("price"),
-                        rs.getInt("stockQuantity")
+                        rs.getInt("stockQuantity"),
+                        rs.getInt("ProductID")
                 );
                 list.add(p);
             }
@@ -58,13 +66,13 @@ public class DAO extends DBContext {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Products p = new Products(
-                        rs.getInt("ProductID"),
                         rs.getString("ProductName"),
                         rs.getString("Category"),
                         rs.getString("Images"),
                         rs.getString("Description"),
                         rs.getDouble("price"),
-                        rs.getInt("stockQuantity")
+                        rs.getInt("stockQuantity"),
+                        rs.getInt("ProductID")
                 );
                 list.add(p);
             }
@@ -83,13 +91,13 @@ public class DAO extends DBContext {
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 return new Products(
-                        rs.getInt("ProductID"),
                         rs.getString("ProductName"),
                         rs.getString("Category"),
                         rs.getString("Images"),
                         rs.getString("Description"),
                         rs.getDouble("price"),
-                        rs.getInt("stockQuantity")
+                        rs.getInt("stockQuantity"),
+                        rs.getInt("ProductID")
                 );
             }
         } catch (SQLException e) {
@@ -129,13 +137,13 @@ public class DAO extends DBContext {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Products p = new Products(
-                        rs.getInt("ProductID"),
                         rs.getString("ProductName"),
                         rs.getString("Category"),
                         rs.getString("Images"),
                         rs.getString("Description"),
                         rs.getDouble("price"),
-                        rs.getInt("stockQuantity")
+                        rs.getInt("stockQuantity"),
+                        rs.getInt("ProductID")
                 );
                 System.out.println("Number of results found: " + pList.size());
                 pList.add(p);
@@ -145,7 +153,6 @@ public class DAO extends DBContext {
         }
         return pList;
     }
-
 
     // Phương thức kiểm tra đăng nhập
     public User login(String username, String password) {
@@ -190,26 +197,7 @@ public class DAO extends DBContext {
     }
 
     // Phương thức lấy tất cả người dùng
-    public List<User> getAll() {
-        List<User> users = new ArrayList<>();
-        String sql = "SELECT * FROM users";
-        try {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                users.add(new User(
-                        resultSet.getInt("user_id"),
-                        resultSet.getString("username"),
-                        resultSet.getString("password"),
-                        resultSet.getString("email"),
-                        resultSet.getString("role")
-                ));
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        return users;
-    }
+    
 
     // Phương thức xóa người dùng
     public void deleteUser(int userId) {
@@ -283,7 +271,6 @@ public class DAO extends DBContext {
         return null;
     }
 
-
     public void updateRole(int userId, String newRole) {
         String query = "UPDATE users SET role = ? WHERE user_id = ?";
         try {
@@ -308,6 +295,81 @@ public class DAO extends DBContext {
         }
     }
 
-}
+    public void delete(String name) {
+        String sql = "delete from products where ProductName= ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, name);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
 
+    public void insertNew(Products p) {
+        String sql = "insert into products values(?,?,?,?,?,?)";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, p.getProductName());
+            st.setString(2, p.getCategory());
+            st.setDouble(3, p.getPrice());
+            st.setInt(4, p.getStockQuantity());
+            st.setString(5, p.getImages());
+            st.setString(6, p.getDescription());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    
+    // Phương thức lấy tất cả người dùng
+    public List<User> getAll() {
+        List<User> users = new ArrayList<>();
+        String sql = "SELECT * FROM users";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                users.add(new User(
+                        resultSet.getInt("user_id"),
+                        resultSet.getString("username"),
+                        resultSet.getString("password"),
+                        resultSet.getString("email"),
+                        resultSet.getString("role")
+                ));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return users;
+    }
+
+    // Phương thức xóa người dùng
+    
+    public void update(Products p) {
+        String sql = "UPDATE Products SET ProductName=?, Category=?, Price=?, StockQuantity=?, images=?, Description=? WHERE ProductID=?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, p.getProductName());
+            st.setString(2, p.getCategory());
+            st.setDouble(3, p.getPrice());
+            st.setInt(4, p.getStockQuantity());
+            st.setString(5, p.getImages());
+            st.setString(6, p.getDescription());
+            st.setInt(7, p.getProductID());
+
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error in update: " + e.getMessage());
+        }
+    }
+
+//     public static void main(String[] args) {
+//        DAO d = new DAO();
+//        List<Products> listC = d.getProductByCategory("lithium");
+//        for(Products p :listC){
+//             System.out.println(p.getCategory());
+//        }
+//    }
 }
