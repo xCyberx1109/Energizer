@@ -72,7 +72,6 @@
                             <div class="card-body">
                                 <h5 class="card-title">${p.productName}</h5>
                                 <h5>Price: ${p.price}$</h5>
-                                <a href="${pageContext.request.contextPath}/productDetail?id=${p.productID}" class="btn btn-primary">Detail</a>
                             </div>
                         </div>
                     </c:forEach>
@@ -81,9 +80,13 @@
         </div>
 
 
-        <div class="loader-wrapper">        
-            <div class="spinner-1 "></div>           
-        </div>
+        <!--Intro       
+        <div id="video-intro-container">
+                    <video id="intro-video" autoplay muted>
+                        <source src="asset/images/intro.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>-->
 
 
 
@@ -120,6 +123,26 @@
                 } else {
                     // If the loader has already been shown, hide it immediately
                     $(".loader-wrapper").hide();
+                }
+            });
+
+            document.addEventListener("DOMContentLoaded", function () {
+                // Check if the video has already been played in this session
+                if (sessionStorage.getItem("hasSeenIntro")) {
+                    document.getElementById("video-intro-container").style.display = "none";
+                } else {
+                    // Mark intro as seen for this session
+                    sessionStorage.setItem("hasSeenIntro", "true");
+
+                    // Hide intro when video ends
+                    document.getElementById("intro-video").addEventListener("ended", function () {
+                        document.getElementById("video-intro-container").style.display = "none";
+                    });
+
+                    // Skip button functionality
+                    document.getElementById("skip-button").addEventListener("click", function () {
+                        document.getElementById("video-intro-container").style.display = "none";
+                    });
                 }
             });
 

@@ -1,11 +1,7 @@
 package dal;
 
-import model.Products;
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import model.User;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,117 +11,43 @@ import org.mindrot.jbcrypt.BCrypt;
 
 public class DAO extends DBContext {
 
-    // Lấy danh sách tất cả sản phẩm
+    //Get products
     public List<Products> getAllProducts() {
         List<Products> list = new ArrayList<>();
-        String sql = "SELECT * FROM Products";
+        String sql = "select * from Products";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Products p = new Products(
-                        rs.getString("ProductName"),
-                        rs.getString("Category"),
-                        rs.getString("Images"),
-                        rs.getString("Description"),
-                        rs.getDouble("price"),
-                        rs.getInt("stockQuantity"),
-                        rs.getInt("ProductID")
-                );
+                Products p = new Products(rs.getString("productName"), rs.getString("category"),
+                        rs.getString("images"), rs.getString("description"), rs.getDouble("price"),
+                        rs.getInt("StockQuantity"), rs.getInt("ProductID"));
                 list.add(p);
             }
         } catch (SQLException e) {
-            System.out.println("Error in getAllProducts: " + e.getMessage());
+            System.out.println(e);
         }
         return list;
     }
 
-    // Lấy danh mục sản phẩm (không trùng lặp)
     public List<String> getCategory() {
         List<String> listC = new ArrayList<>();
-        String sql = "SELECT DISTINCT Category FROM Products";
+        String sql = "select DISTINCT Category from Products";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                listC.add(rs.getString("Category"));
+                listC.add(rs.getString("category"));
             }
         } catch (SQLException e) {
-            System.out.println("Error in getCategory: " + e.getMessage());
+            System.out.println(e);
         }
         return listC;
     }
 
-    // Lấy danh sách sản phẩm theo danh mục
-    public List<Products> getProductByCategory(String category) {
-        List<Products> list = new ArrayList<>();
-        String sql = "SELECT * FROM Products WHERE Category = ?";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, category);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                Products p = new Products(
-                        rs.getString("ProductName"),
-                        rs.getString("Category"),
-                        rs.getString("Images"),
-                        rs.getString("Description"),
-                        rs.getDouble("price"),
-                        rs.getInt("stockQuantity"),
-                        rs.getInt("ProductID")
-                );
-                list.add(p);
-            }
-        } catch (SQLException e) {
-            System.out.println("Error in getProductByCategory: " + e.getMessage());
-        }
-        return list;
-    }
-
-    // Lấy thông tin chi tiết của một sản phẩm theo ID
-    public Products getProductById(int id) {
-        String sql = "SELECT * FROM Products WHERE ProductID = ?";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setInt(1, id);
-            ResultSet rs = st.executeQuery();
-            if (rs.next()) {
-                return new Products(
-                        rs.getString("ProductName"),
-                        rs.getString("Category"),
-                        rs.getString("Images"),
-                        rs.getString("Description"),
-                        rs.getDouble("price"),
-                        rs.getInt("stockQuantity"),
-                        rs.getInt("ProductID")
-                );
-            }
-        } catch (SQLException e) {
-            System.out.println("Error in getProductById: " + e.getMessage());
-        }
-        return null; // Trả về null nếu không tìm thấy sản phẩm
-    }
-
-    // Thêm một sản phẩm mới vào database
-    public void addProduct(Products product) {
-        String sql = "INSERT INTO Products (ProductName, Category, Images, Description, Price, StockQuantity) VALUES (?, ?, ?, ?, ?, ?)";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, product.getProductName());
-            st.setString(2, product.getCategory());
-            st.setString(3, product.getImages());
-            st.setString(4, product.getDescription());
-            st.setDouble(5, product.getPrice());
-            st.setInt(6, product.getStockQuantity());
-            st.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Error in addProduct: " + e.getMessage());
-        }
-    }
-
     public List<Products> searchByKey(String key) {
         List<Products> pList = new ArrayList<>();
-        String sql = "select DISTINCT p.ProductID,p.ProductName,p.Category,p.Price,p.images,p.Description,p.StockQuantity\n"
+        String sql = "select DISTINCT p.ProductName,p.Category,p.Price,p.images,p.Description,p.StockQuantity\n"
                 + "from  Products p \n"
                 + "where 1=1";
         if (key != null) {
@@ -136,15 +58,10 @@ public class DAO extends DBContext {
             st.setString(1, "%" + key + "%");
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Products p = new Products(
-                        rs.getString("ProductName"),
-                        rs.getString("Category"),
-                        rs.getString("Images"),
-                        rs.getString("Description"),
-                        rs.getDouble("price"),
-                        rs.getInt("stockQuantity"),
-                        rs.getInt("ProductID")
-                );
+                Products p = new Products(rs.getString("productName"), rs.getString("category"),
+                        rs.getString("images"),
+                        rs.getString("description"), rs.getDouble("price"),
+                        rs.getInt("StockQuantity"), rs.getInt("ProductID"));
                 System.out.println("Number of results found: " + pList.size());
                 pList.add(p);
             }
@@ -152,6 +69,51 @@ public class DAO extends DBContext {
             System.out.println(e);
         }
         return pList;
+    }
+
+    public List<Products> getProductByCategory(String category) {
+        List<Products> list = new ArrayList<>();
+        String sql = "select [productName],[category],[images],[description],[price],[StockQuantity],[ProductID]\nfrom Products\nwhere category=?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, category);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Products p = new Products(rs.getString("productName"), rs.getString("category"),
+                        rs.getString("images"), rs.getString("description"), rs.getDouble("price"),
+                        rs.getInt("StockQuantity"), rs.getInt("ProductID"));
+                list.add(p);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return list;
+    }
+
+    public void delete(String name) {
+        String sql = "delete from products where ProductName= ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, name);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+    public void insertNew(Products p) {
+        String sql = "insert into products values(?,?,?,?,?,?)";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, p.getProductName());
+            st.setString(2, p.getCategory());
+            st.setDouble(3, p.getPrice());
+            st.setInt(4, p.getStockQuantity());
+            st.setString(5, p.getImages());
+            st.setString(6,p.getDescription());
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 
     // Phương thức kiểm tra đăng nhập
@@ -197,7 +159,26 @@ public class DAO extends DBContext {
     }
 
     // Phương thức lấy tất cả người dùng
-    
+    public List<User> getAll() {
+        List<User> users = new ArrayList<>();
+        String sql = "SELECT * FROM users";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                users.add(new User(
+                        resultSet.getInt("user_id"),
+                        resultSet.getString("username"),
+                        resultSet.getString("password"),
+                        resultSet.getString("email"),
+                        resultSet.getString("role")
+                ));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return users;
+    }
 
     // Phương thức xóa người dùng
     public void deleteUser(int userId) {
@@ -295,58 +276,6 @@ public class DAO extends DBContext {
         }
     }
 
-    public void delete(String name) {
-        String sql = "delete from products where ProductName= ?";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, name);
-            st.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-    }
-
-    public void insertNew(Products p) {
-        String sql = "insert into products values(?,?,?,?,?,?)";
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            st.setString(1, p.getProductName());
-            st.setString(2, p.getCategory());
-            st.setDouble(3, p.getPrice());
-            st.setInt(4, p.getStockQuantity());
-            st.setString(5, p.getImages());
-            st.setString(6, p.getDescription());
-            st.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-    }
-
-    
-    // Phương thức lấy tất cả người dùng
-    public List<User> getAll() {
-        List<User> users = new ArrayList<>();
-        String sql = "SELECT * FROM users";
-        try {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                users.add(new User(
-                        resultSet.getInt("user_id"),
-                        resultSet.getString("username"),
-                        resultSet.getString("password"),
-                        resultSet.getString("email"),
-                        resultSet.getString("role")
-                ));
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        return users;
-    }
-
-   
-    
     public void update(Products p) {
         String sql = "UPDATE Products SET ProductName=?, Category=?, Price=?, StockQuantity=?, images=?, Description=? WHERE ProductID=?";
         try {
