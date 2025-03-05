@@ -8,8 +8,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-        <title>JSP Page</title>
+        <link rel="icon" type="image/x-icon" href="asset/images/favicon.ico">
+        <title>Energiz3r</title>
         <link rel="stylesheet" href="https://flowbite-admin-dashboard.vercel.app//app.css">
         <script>
 
@@ -27,7 +27,7 @@
             <div class="flex flex-col items-center justify-center px-6 pt-8 mx-auto md:h-screen pt:mt-0 dark:bg-gray-900">
                 <a href="https://flowbite-admin-dashboard.vercel.app/" class="flex items-center justify-center mb-8 text-2xl font-semibold lg:mb-10 dark:text-white">
                     <a href="" class="flex items-center justify-center mb-8 text-2xl font-semibold lg:mb-10 dark:text-white">
-                        <img src="images/FondevJSLogoSmal.svg" class="mr-4 h-25" alt="Logo">
+                        <img style="width: 100px;height: 100px;"src="asset/images/favicon.jpg" alt="Logo">
                     </a> 
                 </a>
                 <!-- Card -->
