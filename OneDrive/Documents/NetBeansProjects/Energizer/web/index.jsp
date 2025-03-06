@@ -37,7 +37,7 @@
                     </div>
                 </ul>
 
-                <form style="margin: 0px 100px 0px -10%;width: 1000px" method="get" action="search">
+                <form style="margin: 0px 100px 0px -10%;width: 850px" method="get" action="search">
                     <input class="form-control" name="key" type="search" placeholder="Search" aria-label="Search">
                 </form>
 

@@ -24,7 +24,19 @@
                     <h5>Price: ${product.price}$</h5>
                     <p>${product.description}</p>
                     <p>Stock Quantity: ${product.stockQuantity}</p>
-                    <a href="cart.jsp?id=${product.productID}" class="btn btn-success">Add to Cart</a>
+                    
+                    <!-- Form gửi request đến CartServlet để lưu vào Cookie -->
+                    <form action="cart" method="post">
+                        <input type="hidden" name="id" value="${product.productID}">
+                        <input type="hidden" name="name" value="${product.productName}">
+                        <input type="hidden" name="price" value="${product.price}">
+                        <label>Quantity:</label>
+                        <input type="number" name="quantity" value="1" min="1" class="form-control w-25 my-2">
+                        <button type="submit" class="btn btn-success">Add to Cart</button>
+                    </form>
+
+                    <!-- Nút xem giỏ hàng -->
+                    <a href="cart.jsp" class="btn btn-primary mt-3">View Cart</a>
                 </div>
             </div>
         </div>

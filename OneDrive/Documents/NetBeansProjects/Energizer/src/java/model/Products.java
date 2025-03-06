@@ -4,20 +4,22 @@ package model;
 public class Products {
     private String productName, category,images,description;
     private Double price;
-    private int StockQuantity,ProductID;
+    private int StockQuantity,ProductId;
 
     public Products() {
     }
 
-    public Products(String productName, String category, String images, String description, Double price, int StockQuantity, int ProductID) {
+    public Products(String productName, String category, String images, String description, Double price, int StockQuantity, int ProductId) {
         this.productName = productName;
         this.category = category;
         this.images = images;
         this.description = description;
         this.price = price;
         this.StockQuantity = StockQuantity;
-        this.ProductID = ProductID;
+        this.ProductId = ProductId;
     }
+
+   
 
     public String getProductName() {
         return productName;
@@ -68,13 +70,11 @@ public class Products {
     }
 
     public int getProductID() {
-        return ProductID;
+        return ProductId;
     }
 
-    public void setProductID(int id) {
-        this.ProductID = ProductID;
+    public void setProductID(int ProductId) {
+        this.ProductId = ProductId;
     }
 
-    
-    
 }
