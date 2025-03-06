@@ -1,11 +1,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="jakarta.servlet.http.Cookie"%>
-<%@page import="java.net.URLDecoder"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.List"%>
+<%@page import="java.net.URLDecoder, java.net.URLEncoder"%>
+<%@page import="java.util.ArrayList, java.util.List"%>
 <%@page import="dal.DAO"%>
 <%@page import="model.Products"%>
-<%@page import="java.net.URLEncoder"%>
 <html>
     <head>
         <title>Shopping Cart</title>
@@ -50,11 +48,19 @@
 
                                     Products p = dao.getProductById(productId);
                                     if (p != null) {
+                                        cartItems.add(productId + "-" + quantity);
                     %>
                     <tr>
                         <td><%= p.getProductName() %></td>
                         <td><%= p.getPrice() %> $</td>
-                        <td><%= quantity %></td>
+                        <td>
+                            <form action="updateCart" method="post" class="d-inline">
+                                <input type="hidden" name="id" value="<%= productId %>">
+                                <button type="submit" name="action" value="decrease" class="btn btn-sm btn-secondary">-</button>
+                                <span id="qty-<%= productId %>"><%= quantity %></span>
+                                <button type="submit" name="action" value="increase" class="btn btn-sm btn-secondary">+</button>
+                            </form>
+                        </td>
                         <td><%= p.getPrice() * quantity %> $</td>
                         <td>
                             <a href="removefromcart?id=<%= productId %>" class="btn btn-danger btn-sm">Remove</a>
@@ -66,7 +72,7 @@
                                 }
                             }
                         }
- String updatedCartData = String.join(",", cartItems);
+                        String updatedCartData = String.join(",", cartItems);
                         Cookie updatedCart = new Cookie("cart", URLEncoder.encode(updatedCartData, "UTF-8"));
                         updatedCart.setMaxAge(60 * 60 * 24 * 7);
                         updatedCart.setPath("/");
